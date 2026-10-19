@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 186" width="240" height="186" role="img" aria-label="A painter filling in a canvas while the audit runs">
+  <title>Auditing in progress</title>
+  <style>
+    /* The audit takes roughly 20-25 seconds, so the picture is staged across
+       22 seconds and then holds. If a run takes longer the painting simply
+       stays finished while the brush keeps working, which reads as
+       intentional. These stages are timed, not a real progress bar: the
+       pipeline cannot report fractional progress, and a bar that lies is
+       worse than none. */
+
+    .stroke {
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: stroke_in 1.1s cubic-bezier(0.22, 0.68, 0.36, 1) forwards;
+    }
+
+    @keyframes stroke_in {
+      from { opacity: 0; transform: scale(0.84) translateY(3px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Built the way a painting is: ground tone, then masses, then detail. */
+    .s1 { animation-delay: 0.4s; }
+    .s2 { animation-delay: 3.2s; }
+    .s3 { animation-delay: 6.0s; }
+    .s4 { animation-delay: 8.8s; }
+    .s5 { animation-delay: 11.6s; }
+    .s6 { animation-delay: 14.4s; }
+    .s7 { animation-delay: 17.2s; }
+    .s8 { animation-delay: 20.0s; }
+
+    .arm {
+      transform-box: fill-box;
+      transform-origin: 4px 10px;
+      animation: dab 1.9s ease-in-out infinite;
+    }
+
+    @keyframes dab {
+      0%   { transform: rotate(-6deg) translateX(0); }
+      28%  { transform: rotate(4deg)  translateX(2px); }
+      44%  { transform: rotate(1deg)  translateX(1px); }
+      66%  { transform: rotate(7deg)  translateX(3px); }
+      100% { transform: rotate(-6deg) translateX(0); }
+    }
+
+    .body {
+      transform-box: fill-box;
+      transform-origin: bottom center;
+      animation: lean 3.8s ease-in-out infinite;
+    }
+
+    @keyframes lean {
+      0%, 100% { transform: rotate(0deg); }
+      50%      { transform: rotate(1.3deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stroke { opacity: 1; animation: none; }
+      .arm, .body { animation: none; }
+    }
+  </style>
+
+  <!-- easel -->
+  <polygon points="92,174 104,58 110,58 100,174" fill="#cbb79e"/>
+  <polygon points="198,174 186,58 192,58 206,174" fill="#cbb79e"/>
+  <polygon points="146,58 152,58 152,34 146,34" fill="#b09b80"/>
+  <rect x="98" y="104" width="96" height="5" rx="2" fill="#b09b80"/>
+
+  <!-- canvas -->
+  <rect x="98" y="34" width="96" height="70" rx="2" fill="#ffffff"
+        stroke="#e6e0d8" stroke-width="1.5"/>
+
+  <!-- the picture, stage by stage -->
+  <rect class="stroke s1" x="100" y="36" width="92" height="40" fill="#e8eef3"/>
+  <circle class="stroke s2" cx="170" cy="50" r="9" fill="#f2dfb4"/>
+  <path   class="stroke s3" d="M100 76 L124 58 L148 76 Z" fill="#d7e2d6"/>
+  <path   class="stroke s4" d="M130 76 L158 54 L188 76 Z" fill="#bfd2bd"/>
+  <rect   class="stroke s5" x="100" y="76" width="92" height="26" fill="#cfdce6"/>
+  <g      class="stroke s6">
+    <rect x="113" y="66" width="4" height="14" rx="1.5" fill="#c3ab93"/>
+    <circle cx="115" cy="63" r="9" fill="#a8c3a6"/>
+  </g>
+  <path   class="stroke s7" d="M150 88 q8 -5 16 0" stroke="#b8a894"
+          stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <path   class="stroke s8" d="M106 96 q5 -3 10 0 q5 3 10 0" stroke="#b8a894"
+          stroke-width="1.4" fill="none" stroke-linecap="round"/>
+
+  <!-- painter -->
+  <g class="body">
+    <circle cx="46" cy="64" r="12" fill="#7d8c98"/>
+    <path d="M30 174 L34 94 q12 -8 24 0 L62 174 Z" fill="#9aa7b1"/>
+    <g class="arm">
+      <path d="M58 100 L86 88" stroke="#7d8c98" stroke-width="7"
+            stroke-linecap="round" fill="none"/>
+      <path d="M86 88 L102 82" stroke="#b09b80" stroke-width="2.4"
+            stroke-linecap="round" fill="none"/>
+      <circle cx="103" cy="81.5" r="2.6" fill="#6b8ea3"/>
+    </g>
+  </g>
+
+  <!-- palette -->
+  <ellipse cx="26" cy="118" rx="14" ry="9" fill="#cbb79e"/>
+  <circle cx="21" cy="115" r="2.2" fill="#b36a63"/>
+  <circle cx="28" cy="114" r="2.2" fill="#6b8ea3"/>
+  <circle cx="33" cy="119" r="2.2" fill="#a8c3a6"/>
+</svg>

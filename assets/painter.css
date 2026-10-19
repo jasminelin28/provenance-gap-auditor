@@ -1,0 +1,58 @@
+/* Styling for the loading painter. The animation itself is timed inside
+   assets/painter.svg, so it survives being loaded as an image. */
+
+.painter_scene {
+  display: block;
+  margin: 0 auto 10px;
+  width: 240px;
+  height: 186px;
+}
+
+.painter_caption {
+  font-size: 13px;
+  color: #7a736b;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  animation: caption_pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes caption_pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .painter_caption { animation: none; opacity: 0.8; }
+}
+
+/* Flagged rows in the ownership chain expand in place to show their gap and
+   database matches. Native <details>, so opening one costs no round trip. */
+
+.chain_row_details summary {
+  list-style: none;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.chain_row_details summary::-webkit-details-marker,
+.chain_row_details summary::marker {
+  display: none;
+}
+
+.chain_row_details summary:hover {
+  background-color: #ffe4e6;
+}
+
+.chain_row_details summary:focus-visible {
+  outline: 2px solid #be123c;
+  outline-offset: -2px;
+}
+
+/* The affordance flips to a close label once the row is open. */
+.chain_row_details[open] .chain_row_toggle::after {
+  content: " x";
+}
+
+.chain_row_details:not([open]) .chain_row_toggle::after {
+  content: " >";
+}

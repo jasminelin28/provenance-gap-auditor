@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+data/usage_log.csv
+!data/usage_log_snapshot.csv
+.DS_Store
+
+# Development-only screenshot tooling browser cache
+.playwright/
