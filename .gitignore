@@ -8,3 +8,5 @@ data/usage_log.csv
 
 # Development-only screenshot tooling browser cache
 .playwright/
+
+# Generated deliverables are committed deliberately; see tools/build_report.py
