@@ -42,6 +42,9 @@ figcaption { font-size: 12.5px; color: var(--faint); margin-top: 7px; font-style
 .callout.good { border-left-color: #15803d; background: #f0fdf4; }
 .callout.note { border-left-color: #4f46e5; background: #f5f3ff; }
 .missing { color: #be123c; font-style: italic; }
+sup { font-size: 0.72em; color: #1d4ed8; }
+ol.refs { font-size: 13.6px; line-height: 1.55; }
+ol.refs li { margin-bottom: 9px; }
 .small { font-size: 12.8px; color: var(--faint); }
 @media print {
   body { padding: 0 0 0; font-size: 11.4pt; max-width: none; }
@@ -86,11 +89,15 @@ has specialists. Most buyers do not, and the cost of missing it is severe: a
 restitution claim can void a sale years later, and the reputational damage
 lands on whoever bought carelessly.</p>
 
-<p>The scale of the backlog is documented. The Claims Conference estimates that
-U.S. museums hold <strong>well over 100,000</strong> objects meeting the
-Nazi-era criteria, while only about <strong>10,668</strong> have publicly
-accessible provenance research &#8212; roughly one object in ten. The gap is not
-a lack of will. It is that the work is manual and there is far too much of it.</p>
+<p>The scale of the backlog is documented. A 2025 survey by the Claims
+Conference and the World Jewish Restitution Organization reviewed 160 U.S. art
+museums formerly participating in the Nazi-Era Provenance Internet Portal. It
+found that these institutions hold <strong>well over 100,000</strong> objects
+meeting the Nazi-era criteria, while 33 museums provided publicly accessible
+provenance information covering only <strong>10,668</strong> objects &#8212;
+itself 36&#37; of what had previously been available before the portal closed in
+2024.<sup>1</sup> The shortfall does not reflect an absence of institutional
+will; it reflects the fact that the work is manual and the corpus is large.</p>
 
 <h2>3. What is new here</h2>
 
@@ -112,10 +119,16 @@ rules can raise but not lower.</strong> Specifically:</p>
 <li><strong>Gaps are computed, not guessed.</strong> Year arithmetic and
 placeholder detection run in Python. The same record always yields the same
 gaps, and every gap traces to a named rule in <code>gap_agent.py</code>.</li>
-<li><strong>The rules implement a published standard.</strong> The AAM/AAMD
-criteria ask institutions to flag objects created before 1946, acquired after
-1932, that changed hands between 1932 and 1946 and were or might have been in
-continental Europe. The app's checks are those criteria expressed as code.</li>
+<li><strong>The rules implement a published standard.</strong> The
+Washington Conference Principles direct institutions to give consideration to
+&#8220;unavoidable gaps or ambiguities in the provenance in light of the passage
+of time and the circumstances of the Holocaust era&#8221;.<sup>2</sup> The
+AAM/AAMD criteria operationalise this by asking institutions to flag objects
+created before 1946, acquired after 1932, that changed hands between 1932 and
+1946 and were or might have been in continental Europe. The app's checks are
+those criteria expressed as code. Reynolds notes that provenance research
+&#8220;lacks a prescribed methodology&#8221;;<sup>3</sup> making one portion of
+it explicit and reproducible is the contribution claimed here.</li>
 <li><strong>The verdict has a floor.</strong> A model proposes the rating; a
 rule can raise it. A documented Nazi-era dealer in the chain forces high risk
 regardless of what the model concluded &#8212; or what the record tried to
@@ -352,9 +365,14 @@ users it would be the first optimisation worth doing.
 
 <h3>Prompt injection</h3>
 
-<p>The app's entire input is untrusted text that a stranger wrote. A catalogue
-entry can carry instructions aimed at the model. This is the central attack,
-and it is defended in four layers.</p>
+<p>The app's entire input is untrusted text that a third party wrote. A
+catalogue entry can carry instructions aimed at the model. Greshake et al.
+characterise this class of attack as <em>indirect prompt injection</em>, in
+which instructions are embedded in content that an application retrieves and
+processes rather than supplied by the user directly; they argue that
+LLM-integrated applications structurally blur the boundary between data and
+instructions.<sup>4</sup> This application sits squarely in that category, since
+its entire input is third-party text. The defence operates in four layers.</p>
 
 <ol>
 <li>The record is wrapped in <code>&lt;provenance_record&gt;</code> tags and both
@@ -471,16 +489,24 @@ estimated.</p>
 
 <h3>The backlog this addresses</h3>
 
-<p>The Claims Conference figure is the clearest public statement of the problem:
-<strong>100,000+</strong> covered objects in U.S. museums,
-<strong>10,668</strong> with published provenance research. Roughly 90,000
-objects have not been through this process.</p>
+<p>The 2025 Claims Conference/WJRO survey is the clearest public statement of
+the problem. Against a holding estimated at well over 100,000 covered objects,
+33 U.S. museums published accessible provenance information for
+<strong>10,668</strong>.<sup>1</sup></p>
 
-<p>At the measured cost, a first-pass triage of 90,000 records would cost about
-<strong>$313</strong> in model spend and run in days rather
-than years. That does not replace a provenance researcher &#8212; it tells them
-which 90,000 records to open first, which is precisely the bottleneck the
-Claims Conference numbers describe.</p>
+<p>One qualification matters. That figure counts objects whose provenance
+information is <em>publicly accessible</em>, not objects that have been
+researched. Research may have been conducted and not published, so 10,668 is a
+lower bound on work completed and the implied shortfall is an upper bound on
+work outstanding. The survey authors make the same point, noting that
+additional information may exist but was not readily available to the public.</p>
+
+<p>Taking the shortfall at its upper bound, a first-pass triage of roughly
+90,000 records at the measured cost is a model expenditure of about
+<strong>$313</strong>, executable in days rather than years.
+This does not substitute for archival research. It establishes an ordering over
+the corpus &#8212; which records a researcher should open first &#8212; and that
+ordering is precisely the constraint the survey describes.</p>
 
 <div class="callout note">
 <strong>What I deliberately did not claim.</strong> I searched for a published
@@ -535,6 +561,36 @@ addresses the 90,000-object backlog.</li>
 are publicly known, replacing judgement calls with fitted values.</li>
 <li><strong>Explicit prompt caching</strong> for the static system prompts, the
 first optimisation that matters above a few thousand users.</li>
+</ol>
+
+<h2>References</h2>
+
+<ol class="refs">
+<li>Conference on Jewish Material Claims Against Germany and World Jewish
+Restitution Organization. <em>Report on the Extent of Provenance Research
+Regarding Nazi-Looted Cultural and Religious Property in U.S. Museums</em>,
+25 September 2025. Survey of 160 U.S. art museums; data collected Spring 2025.</li>
+
+<li>U.S. Department of State. <em>Washington Conference Principles on
+Nazi-Confiscated Art</em>, released in connection with the Washington
+Conference on Holocaust-Era Assets, Washington, DC, 3 December 1998. Endorsed
+by 44 participating governments; non-binding. Principle 4 concerns gaps and
+ambiguities in provenance.</li>
+
+<li>Reynolds, L. <em>An Art Provenance Research Guide for the Non-Specialist</em>.
+Master's paper, School of Information and Library Science, University of North
+Carolina at Chapel Hill.</li>
+
+<li>Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., &amp; Fritz,
+M. (2023). Not What You've Signed Up For: Compromising Real-World
+LLM-Integrated Applications with Indirect Prompt Injection. In
+<em>Proceedings of the 16th ACM Workshop on Artificial Intelligence and
+Security (AISec '23)</em>. arXiv:2302.12173.</li>
+
+<li>American Alliance of Museums. <em>Unlawful Appropriation of Objects During
+the Nazi Era</em> (standards and best practices), and Association of Art Museum
+Directors guidance on the same, which together define the covered-object
+criteria used by the rule checks.</li>
 </ol>
 
 <h2>Appendix: running it</h2>
